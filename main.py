@@ -45,10 +45,10 @@ for i in range(1, len_of_subjects+1):
     # 과제들 리스트를 가져옴
     subs = subjects_soup.findAll('tbody')
 
-    # 과제들 모두 homeworks 리스트에 (강의명+과제명, 시작일, 마감일) 형태로 저장
+    # 과제들 모두 homeworks 리스트에 (강의명+과제명, 시작일,시간, 마감일,시간) 형태로 저장
     for sub in subs[:-1]:
         print(subject_name, sub.findAll('td')[1].text, sub.findAll('td')[2].text)
-        homeworks.append((subject_name + ' ' + sub.findAll('td')[1].text, sub.findAll('td')[2].text.split()[0], sub.findAll('td')[2].text.split()[3]))
+        homeworks.append((subject_name + ' ' + sub.findAll('td')[1].text, sub.findAll('td')[2].text.split()[0], sub.findAll('td')[2].text.split()[1], sub.findAll('td')[2].text.split()[3], sub.findAll('td')[2].text.split()[4]))
 
     # 다시 메인페에지로 돌아감
     driver.find_element(By.XPATH, '/html/body/header/div[1]/div/div[1]/a/img').click()
@@ -109,18 +109,27 @@ for i, hw in enumerate(homeworks):
     start_day.send_keys(hw[1])
     time.sleep(0.2)
 
+    # 시작 시간 입력
+    start_time = driver.find_element(By.XPATH, '//*[@id="_real_schedule_body"]/div[2]/div/div[3]/div[3]/div/div[3]/div[1]/input')
+    for _ in range(8):
+        start_time.send_keys(Keys.BACKSPACE)
+    start_time.send_keys(hw[2])
+    time.sleep(0.2)
+
     # 마감일 입력
     end_day = driver.find_element(By.XPATH, '//*[@id="end_date"]')
     for _ in range(10):
         end_day.send_keys(Keys.BACKSPACE)
-    end_day.send_keys(hw[2])
+    end_day.send_keys(hw[3])
+    time.sleep(0.2)
+
+    # 마감 시간 입력
+    end_time = driver.find_element(By.XPATH, '//*[@id="_real_schedule_body"]/div[2]/div/div[3]/div[3]/div/div[5]/div[1]/input')
+    for _ in range(8):
+        end_time.send_keys(Keys.BACKSPACE)
+    end_time.send_keys(hw[4])
     time.sleep(0.2)
 
     driver.find_element(By.XPATH, '//*[@id="_real_schedule_body"]/div[2]/div/div[7]/button[1]').click()
     driver.find_element(By.XPATH, '//*[@id="header"]/h1/a[2]').click()
     time.sleep(0.5)
-
-
-
-while True:
-    pass

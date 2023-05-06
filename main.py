@@ -98,7 +98,7 @@ driver.find_element(By.ID, 'new.dontsave').click()
 time.sleep(1)
 
 # 일정 추가
-for hw in enumerate(homeworks):
+for hw in homeworks:
     driver.find_element(By.XPATH, '//*[@id="nav_snb"]/div/div[1]/a[1]').click()
 
     time.sleep(1)

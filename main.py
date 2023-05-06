@@ -6,6 +6,10 @@ import time
 import pyperclip
 import platform
 
+'''
+klas에서 과제 크롤링 시작
+'''
+
 klas_url = "https://klas.kw.ac.kr/usr/cmn/login/LoginForm.do"
 
 klas_id = input("학번: ")
@@ -40,6 +44,7 @@ for i in range(1, len_of_subjects+1):
     driver.find_element(By.XPATH, '//*[@id="appModule"]/div[1]/div[2]/div/div[2]/div/div[2]/ul/li[2]/a').click()
     subject_name = subjects[i-1].text.split()[0]
 
+    # beautifulsoup을 이용하여 과제 정보들을 가져옴
     subjects_html = driver.page_source
     subjects_soup = BeautifulSoup(subjects_html, 'html.parser')
     # 과제들 리스트를 가져옴
@@ -67,7 +72,7 @@ driver.get(calendar_url)
 elem_id = driver.find_element(By.ID, 'id')
 elem_id.click()
 time.sleep(0.1)
-pyperclip.copy(naver_id)                        ################ id 입력으로 바꿔야 됨
+pyperclip.copy(naver_id)
 # mac OS 일 경우 command + v 로 붙여넣기
 if platform.system() == 'Darwin':
     elem_id.send_keys(Keys.COMMAND, 'v')
@@ -93,7 +98,7 @@ driver.find_element(By.ID, 'new.dontsave').click()
 time.sleep(1)
 
 # 일정 추가
-for i, hw in enumerate(homeworks):
+for hw in enumerate(homeworks):
     driver.find_element(By.XPATH, '//*[@id="nav_snb"]/div/div[1]/a[1]').click()
 
     time.sleep(1)
